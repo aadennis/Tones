@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Media;
 
+
 namespace TonesAndStuff {
     
     static class Program {
@@ -42,11 +43,11 @@ namespace TonesAndStuff {
             _waveHeaderFileHeader = new List<int>{0X46464952, 36 + _bytes, 0X45564157, 0X20746D66, 16, 0X20001, 44100, 176400, 0X100004, 0X61746164, _bytes};
             
         }
-        
+
         public void WriteIt() {
             
              double DeltaFT;
-             
+             GetRandomInterval();
              foreach (var frequency in _notes) {
             
                 DeltaFT = 2 * Math.PI * frequency / 44100.0;
@@ -69,6 +70,23 @@ namespace TonesAndStuff {
                     }
                 }
             }
+        }
+        /// <summary>
+        ///  Today: 
+        ///  return/(well, print) a random integer between 1 and the length of the notes array (2 octaves)
+        ///  Soon:
+        ///  Return a pair of random frequences in notes array, where the first is always lower than
+        ///  the second, and there is not more than an octave between the notes inclusive in any 
+        /// returned pair.
+        /// </summary>
+        public Dictionary<string,string> GetRandomInterval() {
+            var xx = new Random().Next(1,_notes.Count);
+            System.Console.WriteLine(_notes[0]);
+            System.Console.WriteLine(xx);
+            var x = new Dictionary<string,string>();
+            x.Add("MyKey","adfadMyVafaf");
+            return x;
+
         }
     }
 }
