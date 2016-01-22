@@ -11,7 +11,7 @@ namespace TonesAndStuff {
         
         public static void Main() {
             ToneGenerator toneGenerator = new ToneGenerator();
-            toneGenerator.WriteIt();
+            toneGenerator.SingAllAvailableNotes();
         }
     }
     
@@ -33,8 +33,10 @@ namespace TonesAndStuff {
         private readonly int _bytes;
         private readonly List<int> _waveHeaderFileHeader;
         private readonly Dictionary<int, string> _notes = new Dictionary<int, string>() {
-            {131,"x"}, {139,"x"}, {147,"x"}, {156,"x"}, {165,"x"}, {175,"x"}, {185,"x"}, {196,"x"}, {208,"x"}, {220,"x"}, {233,"x"}, {247,"x"},
-                {262,"x"}, {277,"x"}, {294,"x"}, {311,"x"}, {330,"x"}, {349,"x"}, {370,"x"}, {392,"x"}, {415,"x"}, {440,"x"}, {466,"x"}, {494,"x"} 
+            {131,"C.3"}, {139,"C#.3"}, {147,"D.3"}, {156,"D#.3"}, {165,"E.3"}, {175,"F.3"}, 
+            {185,"F#.3"}, {196,"G.3"}, {208,"G#.3"}, {220,"A.3"}, {233,"A#.3"}, {247,"B.3"},
+            {262,"C.4"}, {277,"C#.4"}, {294,"D.4"}, {311,"D#.4"}, {330,"E.4"}, {349,"F.4"}, 
+            {370,"F#.4"}, {392,"G.4"}, {415,"G#.4"}, {440,"A.4"}, {466,"A#.4"}, {494,"B.4"} 
         };
         
         public ToneGenerator() {
@@ -45,12 +47,16 @@ namespace TonesAndStuff {
             
         }
 
-        public void WriteIt() {
+        public void SingAllAvailableNotes() {
             
              double DeltaFT;
              GetRandomInterval();
-             foreach (var frequency in _notes.Keys) {
-            
+             int frequency;
+             string noteName;
+             foreach (var note in _notes) {
+                frequency = note.Key;
+                noteName = note.Value;
+                System.Console.WriteLine("[{0}][{1}]", frequency, noteName);
                 DeltaFT = 2 * Math.PI * frequency / 44100.0;
                 
                 using (MemoryStream mStream = new MemoryStream(44 + _bytes)) {
