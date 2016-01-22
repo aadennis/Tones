@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using System.Media;
+using System.Linq;
 
 
 namespace TonesAndStuff {
@@ -31,9 +32,9 @@ namespace TonesAndStuff {
         private readonly int _samples;
         private readonly int _bytes;
         private readonly List<int> _waveHeaderFileHeader;
-        private readonly List<int> _notes = new List<int>{
-                131, 139, 147, 156, 165, 175, 185, 196, 208, 220, 233, 247,
-                262, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466, 494 
+        private readonly Dictionary<int, string> _notes = new Dictionary<int, string>() {
+            {131,"x"}, {139,"x"}, {147,"x"}, {156,"x"}, {165,"x"}, {175,"x"}, {185,"x"}, {196,"x"}, {208,"x"}, {220,"x"}, {233,"x"}, {247,"x"},
+                {262,"x"}, {277,"x"}, {294,"x"}, {311,"x"}, {330,"x"}, {349,"x"}, {370,"x"}, {392,"x"}, {415,"x"}, {440,"x"}, {466,"x"}, {494,"x"} 
         };
         
         public ToneGenerator() {
@@ -48,7 +49,7 @@ namespace TonesAndStuff {
             
              double DeltaFT;
              GetRandomInterval();
-             foreach (var frequency in _notes) {
+             foreach (var frequency in _notes.Keys) {
             
                 DeltaFT = 2 * Math.PI * frequency / 44100.0;
                 
@@ -80,8 +81,8 @@ namespace TonesAndStuff {
         /// returned pair.
         /// </summary>
         public Dictionary<string,string> GetRandomInterval() {
-            var xx = new Random().Next(1,_notes.Count);
-            System.Console.WriteLine(_notes[0]);
+            var xx = new Random().Next(1,_notes.Keys.Count);
+            System.Console.WriteLine((_notes.Where(x2 => x2.Key.Equals(131))).Single());
             System.Console.WriteLine(xx);
             var x = new Dictionary<string,string>();
             x.Add("MyKey","adfadMyVafaf");
