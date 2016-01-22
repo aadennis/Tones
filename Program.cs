@@ -87,9 +87,16 @@ namespace TonesAndStuff {
         /// returned pair.
         /// </summary>
         public Dictionary<string,string> GetRandomInterval() {
-            var xx = new Random().Next(1,_notes.Keys.Count);
+            var upperNoteLimit = _notes.Keys.Count;
+            var rand = new Random();
+            var randomNoteIndex1 = rand.Next(1,upperNoteLimit);
+            var notes = new List<int>{rand.Next(1,upperNoteLimit)};
+            notes.Add(rand.Next(1,upperNoteLimit));
+          
+            notes.Sort();
+            
+            System.Console.WriteLine("Todays interval is [{0},{1}]", notes[0], notes[1]);
             System.Console.WriteLine((_notes.Where(x2 => x2.Key.Equals(131))).Single());
-            System.Console.WriteLine(xx);
             var x = new Dictionary<string,string>();
             x.Add("MyKey","adfadMyVafaf");
             return x;
