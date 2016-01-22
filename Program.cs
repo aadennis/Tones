@@ -50,9 +50,17 @@ namespace TonesAndStuff {
         public void SingAllAvailableNotes() {
             
              double DeltaFT;
-             GetRandomInterval();
+             var rand = new Random();
+             while (true) {
+                var xxx = GetRandomInterval(rand);
+                System.Console.WriteLine(xxx[0]);
+                System.Console.WriteLine(xxx[1]);
+                System.Console.WriteLine("-------------");
+            }
+             return;
              int frequency;
              string noteName;
+             
              foreach (var note in _notes) {
                 frequency = note.Key;
                 noteName = note.Value;
@@ -82,25 +90,23 @@ namespace TonesAndStuff {
         ///  Today: 
         ///  return/(well, print) a random integer between 1 and the length of the notes array (2 octaves)
         ///  Soon:
-        ///  Return a pair of random frequences in notes array, where the first is always lower than
+        ///  Return a pair of random frequencies in notes array, where the first is always lower than
         ///  the second, and there is not more than an octave between the notes inclusive in any 
         /// returned pair.
         /// </summary>
-        public Dictionary<string,string> GetRandomInterval() {
+        public List<int> GetRandomInterval(Random rand) {
             var upperNoteLimit = _notes.Keys.Count;
-            var rand = new Random();
-            var randomNoteIndex1 = rand.Next(1,upperNoteLimit);
+
             var notes = new List<int>{rand.Next(1,upperNoteLimit)};
-            notes.Add(rand.Next(1,upperNoteLimit));
+            var nextNote = rand.Next(1,upperNoteLimit);
+            while (notes[0] == nextNote) {
+                System.Console.WriteLine("got a dup");
+                nextNote = rand.Next(1,upperNoteLimit);
+            }
+            notes.Add(nextNote);
           
             notes.Sort();
-            
-            System.Console.WriteLine("Todays interval is [{0},{1}]", notes[0], notes[1]);
-            System.Console.WriteLine((_notes.Where(x2 => x2.Key.Equals(131))).Single());
-            var x = new Dictionary<string,string>();
-            x.Add("MyKey","adfadMyVafaf");
-            return x;
-
+            return notes;
         }
     }
 }
