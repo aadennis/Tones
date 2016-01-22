@@ -5,6 +5,7 @@ using System.Media;
 using System.Linq;
 
 
+
 namespace TonesAndStuff {
     
     static class Program {
@@ -51,8 +52,9 @@ namespace TonesAndStuff {
             
              double DeltaFT;
              var rand = new Random();
+             var upperNoteLimit = _notes.Keys.Count;
              while (true) {
-                var xxx = GetRandomInterval(rand);
+                var xxx = GetRandomInterval(1, upperNoteLimit, 13, rand);
                 System.Console.WriteLine(xxx[0]);
                 System.Console.WriteLine(xxx[1]);
                 System.Console.WriteLine("-------------");
@@ -87,26 +89,21 @@ namespace TonesAndStuff {
             }
         }
         /// <summary>
-        ///  Today: 
-        ///  return/(well, print) a random integer between 1 and the length of the notes array (2 octaves)
-        ///  Soon:
-        ///  Return a pair of random frequencies in notes array, where the first is always lower than
-        ///  the second, and there is not more than an octave between the notes inclusive in any 
-        /// returned pair.
+        ///  Return a pair of random integers, where the first is always lower than
+        ///  the second, and there is not more than maxDistance between the returned integers. 
+        ///  Keeping this interval close is because the main usecase is a musical interval test
+        ///  where a large distance would not help with aural training.
+        ///  It helps if the Random passed in has been used in previous calls, to help entropy.
         /// </summary>
-        public List<int> GetRandomInterval(Random rand) {
-            var upperNoteLimit = _notes.Keys.Count;
-
-            var notes = new List<int>{rand.Next(1,upperNoteLimit)};
-            var nextNote = rand.Next(1,upperNoteLimit);
-            while (notes[0] == nextNote) {
-                System.Console.WriteLine("got a dup");
-                nextNote = rand.Next(1,upperNoteLimit);
+        public List<int> GetRandomInterval(int lowerLimit, int upperLimit, int maxDistance, Random rand) {
+            var lowerAndUpperLimit = new List<int>{rand.Next(lowerLimit,upperLimit)};
+            var nextNote = rand.Next(lowerLimit, upperLimit);
+            while (lowerAndUpperLimit[0] == nextNote || System.Math.Abs(lowerAndUpperLimit[0] - nextNote) > maxDistance) {
+                nextNote = rand.Next(lowerLimit, upperLimit);
             }
-            notes.Add(nextNote);
-          
-            notes.Sort();
-            return notes;
+            lowerAndUpperLimit.Add(nextNote);
+            lowerAndUpperLimit.Sort();
+            return lowerAndUpperLimit;
         }
     }
 }
