@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Media;
+using System.Linq;
+using System;
 
 namespace Model {
 
@@ -18,17 +20,26 @@ namespace Model {
             {370,"F#.4"}, {392,"G.4"}, {415,"G#.4"}, {440,"A.4"}, {466,"A#.4"}, {494,"B.4"} 
         };
         
-        public Dictionary<int,string> GetAllNotes() {
-            return _notes;
-        }
-        
         public ToneUtility() {
-             System.Console.WriteLine(_amplitude);
             _samples = 441 * _duration / 10;
             _bytes = _samples * 4;
             _waveHeaderFileHeader = new List<int>{0X46464952, 36 + _bytes, 0X45564157, 0X20746D66, 16, 0X20001, 44100, 176400, 0X100004, 0X61746164, _bytes};
         }
-      
+        
+        public Dictionary<int,string> GetAllNotes() {
+            return _notes;
+        } 
+        
+        public string GetNoteElements(int frequency) {
+            bool found = GetAllNotes().Where(n => n.Key.Equals(frequency)).Any();
+            if (!found) {
+                throw new ArgumentException(
+                    string.Format("[The frequency [{0}] was not found in the set of available notes]", 
+                        frequency));
+            }
+            return GetAllNotes().Where(n => n.Key.Equals(frequency)).Single().Value.ToString();
+        }
+        
         public void PlayNote(int frequency, string noteDescription) {
             System.Console.WriteLine("[{0}][{1}]", frequency, noteDescription);
             double DeltaFT = 2 * System.Math.PI * frequency / 44100.0;

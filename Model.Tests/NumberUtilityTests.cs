@@ -1,10 +1,8 @@
 using Xunit;
 using System;
-using System.Runtime.CompilerServices;
-
 namespace Model.Tests {
     
-    public class NumberUtilityTests {
+    public class NumberUtilityTests : ModelTestBase {
 
         const int MaxIterationsToTestForError = 1000;
         
@@ -49,15 +47,14 @@ namespace Model.Tests {
             Assert.Equal(randomBoundaries[0],randomBoundaries[1]);
         }
         
+        [Fact]
+        public void FrequencyC3ReturnsExpectedElements() {
+            
+        }
+        
         private void TestInitialize() {
           util = new Model.NumberUtilities();
           rand = new Random();
-        }
-        
-        //avaiable from .Net 4.5...
-        private void TraceExecutingMethod([CallerMemberName] string caller = null) {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            System.Console.WriteLine("[{0:H:mm:ss.fff}]: Executing test [{1}]", DateTime.UtcNow, caller);
         }
     }
 }
