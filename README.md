@@ -4,6 +4,7 @@ Tone Generator for a Music Theory application
 How to call the tests:
 
 <code>PS C:\temp\ps\Tones\Tones\Model.Tests> <font color="blue">dnx -p .\project.json test</font>
+<p/>
 xUnit.net DNX Runner (32-bit DNX 4.5.1)
   Discovering: Model.Tests
   Discovered:  Model.Tests
