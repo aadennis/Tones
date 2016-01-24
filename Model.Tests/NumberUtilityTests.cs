@@ -1,12 +1,11 @@
 using Xunit;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Model.Tests {
     
-
-    
     public class NumberUtilityTests {
-        
+
         const int MaxIterationsToTestForError = 1000;
         
         Model.NumberUtilities util;
@@ -18,6 +17,8 @@ namespace Model.Tests {
         
         [Fact]
         public void UpperAndLowerNumbersAreNeverTheSame() {
+            TraceExecutingMethod();
+
            for (int i = 0; i < MaxIterationsToTestForError; i++) {
                var randomBoundaries = util.GetRandomInterval(1,30,7,rand);
                Assert.NotEqual(randomBoundaries[0],randomBoundaries[1]);
@@ -27,6 +28,8 @@ namespace Model.Tests {
         [Fact]
         public void UpperAndLowerNumbersAreAlwaysWithinRequestedDistance() {
            const int maxDistance = 7;
+           
+           TraceExecutingMethod();
            for (int i = 0; i < MaxIterationsToTestForError; i++) {
                var randomBoundaries = util.GetRandomInterval(1,30,7,rand);
             //    System.Console.WriteLine(randomBoundaries[0]);
@@ -36,17 +39,25 @@ namespace Model.Tests {
            }
         }
         
-         [Fact]
-         public void ReturnInputIfRequestedUpperAndLowerLimitsMatch() {
-           var upperLimit = 7;
-           var lowerLimit = upperLimit;
-           var randomBoundaries = util.GetRandomInterval(lowerLimit,upperLimit,70000,rand);
-           Assert.Equal(randomBoundaries[0],randomBoundaries[1]);
+        [Fact]
+        public void ReturnInputIfRequestedUpperAndLowerLimitsMatch() {
+            var upperLimit = 7;
+            var lowerLimit = upperLimit;
+            
+            TraceExecutingMethod();
+            var randomBoundaries = util.GetRandomInterval(lowerLimit,upperLimit,70000,rand);
+            Assert.Equal(randomBoundaries[0],randomBoundaries[1]);
         }
         
         private void TestInitialize() {
           util = new Model.NumberUtilities();
           rand = new Random();
+        }
+        
+        //avaiable from .Net 4.5...
+        private void TraceExecutingMethod([CallerMemberName] string caller = null) {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            System.Console.WriteLine("[{0:H:mm:ss.fff}]: Executing test [{1}]", DateTime.UtcNow, caller);
         }
     }
 }
